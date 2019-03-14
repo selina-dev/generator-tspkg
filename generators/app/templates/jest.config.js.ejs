@@ -1,0 +1,18 @@
+module.exports = {
+  transform: {
+    "^.+\\.ts$": "ts-jest",
+  },
+  testRegex: "tests/.+\\.spec\\.ts$",
+  moduleDirectories: ["node_modules", "<%- sourceDir %>"],
+  moduleFileExtensions: ["ts", "js", "json"],
+  collectCoverageFrom: ["<%- sourceDir %>/**/*.ts"],
+  coverageDirectory: "./coverage",
+  testEnvironment: "node",
+  setupFiles: ["./tests/setup.ts"],
+  notify: true,
+  globals: {
+    "ts-jest": {
+      tsConfig: "tsconfig.test.json",
+    },
+  },
+};

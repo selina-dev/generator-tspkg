@@ -1,0 +1,77 @@
+{
+  "name": "<%- name %>",
+  <% if (description) { %>
+  "description": "<%- description %>",
+  <% } %>
+  "version": "<%- version %>",
+  <% if (isRunnable) { %>
+  "main": "<%- entryFile %>",
+  <%   if (hasCommand) { %>
+  "bin": {
+    "<%- command %>": "<%- entryFile %>"
+  },
+  <%   } %>
+  <% } %>
+  <% if (repository) { %>
+  "repository": {
+    "type": "git",
+    "url": "<%- repository %>"
+  },
+  <% } %>
+  <% if (author) { %>
+  "author": {
+    <% if (author.name) { %>
+    "name": "<%- author.name %>"<% if (author.email || author.url) {%>,<% } %>
+    <% } %>
+    <% if (author.email) { %>
+    "email": "<%- author.email %>"<% if (author.url) {%>,<% } %>
+    <% } %>
+    <% if (author.url) { %>
+    "url": "<%- author.url %>"
+    <% } %>
+  },
+  <% } %>
+  <% if (license) { %>
+  "license": "<%- license %>",
+  <% } %>
+  <% if (bugs) { %>
+  "bugs": {
+    "url": "<%- bugs %>"
+  },
+  <% } %>
+  <% if (files.length > 1) { %>
+  "files": [
+    <% files.forEach((file, index) => { %>
+      "<%- file %>"<% if (index !== files.length - 1) { %>,<% } %>
+    <% }) %>
+  ],
+  <% } else { %>
+  "files": ["<%- files[0] %>"],
+  <% } %>
+  "engines": {
+    "node": ">=10.15.1 <11"
+  },
+  "engineStrict": true,
+  "config": {
+    "engine-strict": true
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "build:typedoc": "typedoc --mode modules --tsconfig tsconfig.json --out ./typedoc/",
+    "format": "tslint -p tsconfig.json --fix --exclude \"node_modules/**\" \"**/*.ts\" && cross-env NODE_OPTIONS=\"--max_old_space_size=4096\" prettier --write \"**/*.{ts,js,json}\"",
+    "lint": "tslint -p tsconfig.json -c tslint.json --exclude \"node_modules/**\" \"**/*.ts\"",
+    "clean": "rimraf build coverage typedoc",
+    <% if (isRunnable) { %>
+    <%   if (hasEnvFile) { %>
+    "start": "ts-node --project tsconfig.json -r dotenv/config <%- entryFile %> dotenv_config_path=.env",
+    <%   } else { %>
+    "start": "ts-node --project tsconfig.json <%- entryFile %>",
+    <%   } %>
+    <% } %>
+    "test": "jest",
+    "test:watch": "yarn test --watch",
+    "test:cov": "yarn test --coverage",
+    "test:debug": "node --inspect node_modules/jest/bin/jest.js --runInBand"
+  }
+}

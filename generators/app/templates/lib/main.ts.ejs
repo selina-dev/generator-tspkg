@@ -1,0 +1,20 @@
+function sleepAndPrint(ms, message) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            process.stdout.write(message)
+            resolve()
+        }, ms)
+    })
+}
+
+async function main() {
+    const envVariables = JSON.stringify(process.env, null, 4);
+
+    process.stdout.write("Running application...\n");
+    await sleepAndPrint(750, "Application is running.\n\n");
+    await sleepAndPrint(750, `Environment variables available:\n${envVariables}\n`);
+}
+
+if (require.main === module) {
+    main()
+}
