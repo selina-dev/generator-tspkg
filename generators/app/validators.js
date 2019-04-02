@@ -7,6 +7,7 @@ module.exports = {
   validateGlobs,
   validateSemver,
   validateURL,
+  validateFilePath,
 };
 
 /**
@@ -87,6 +88,27 @@ function validateSemver(input) {
 function validateURL(input) {
   if (!validator.isURL(input)) {
     return "Please enter a valid URL";
+  }
+
+  return true;
+}
+
+/**
+ * Validate that a given file path is neither empty or contain spaces.
+ *
+ * @param {string} input - A file path
+ * @returns {string|true} - An error message if the given string is empty or contains space characters, true otherwise.
+ *
+ * @note This validation function doesn't test for the validaity of the file path
+ *       beyond the basic tests mentioned above.
+ */
+function validateFilePath(input) {
+  if (validator.isEmpty(input)) {
+    return "Please enter a file path";
+  }
+
+  if (/\s/g.test(input)) {
+    return "Please make sure that the provided file path doesn't include any white space characters";
   }
 
   return true;

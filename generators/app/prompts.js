@@ -8,6 +8,7 @@ const {
   validateGlobs,
   validateSemver,
   validateURL,
+  validateFilePath,
 } = require("./validators");
 
 module.exports = {
@@ -107,8 +108,8 @@ function askForBasicProjectDetails() {
       type: "input",
       name: "files",
       message: "Files to include in package distributions",
-      default: function(answers) {
-        return `${answers.sourceDir},package.json,yarn.lock`;
+      default: function() {
+        return "build";
       },
       filter: filterList,
       validate: validateGlobs,
@@ -151,26 +152,34 @@ function askForApplicationEntryFile() {
       default: false,
     },
     {
+      type: "confirm",
+      name: "hasEntryFile",
+      message: "Does your package has a main entry file?",
+      default: true,
+    },
+    {
       type: "input",
       name: "entryFile",
       message: "Where is the entry file for your application?",
       default: function(answers) {
-        return `${answers.sourceDir}/main.ts`;
+        return answers.isRunnable ? "build/main.js" : "build/index.js";
       },
       when: function(answers) {
-        return answers.isRunnable;
+        return answers.hasEntryFile;
       },
-      validate: function(input) {
-        if (validator.isEmpty(input)) {
-          return "Please enter a file path";
-        }
-
-        if (/\s/g.test(input)) {
-          return "Please make sure that the provided file path doesn't include any white space characters";
-        }
-
-        return true;
+      validate: validateFilePath,
+    },
+    {
+      type: "input",
+      name: "typeDefinitions",
+      message: "What is the path to the package's type definitions?",
+      default: function(answers) {
+        return answers.isRunnable ? "build/main.d.ts" : "build/index.d.ts";
       },
+      when: function(answers) {
+        return answers.hasEntryFile;
+      },
+      validate: validateFilePath,
     },
     {
       type: "confirm",

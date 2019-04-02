@@ -4,9 +4,10 @@
   "description": "<%- description %>",
   <% } %>
   "version": "<%- version %>",
-  <% if (isRunnable) { %>
+  <% if (hasEntryFile) { %>
   "main": "<%- entryFile %>",
-  <%   if (hasCommand) { %>
+  "types": "<%- typeDefinitions %>",
+  <%   if (isRunnable && hasCommand) { %>
   "bin": {
     "<%- command %>": "<%- entryFile %>"
   },
