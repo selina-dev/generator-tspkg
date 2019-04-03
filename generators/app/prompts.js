@@ -26,7 +26,7 @@ function askForBasicProjectDetails() {
       message: "Choose a name for your package",
       default: path.basename(process.cwd()), // Name of project directory
       validate: function(input) {
-        if (/^(@[a-z]+\/)?[a-z-]+$/g.test(input) === false) {
+        if (/^(@[a-z0-9]+\/)?[a-z0-9-]+$/g.test(input) === false) {
           return "Package name must be a valid NPM package name";
         }
 
