@@ -86,8 +86,8 @@
   },
 
   // Files and directories to be included in compilation
-  "include": [<%- include.map(glob => `"${glob}"`).join(", ") %>],
+  "include": ["**/*.ts"],
 
   // Files and directories to be excluded from compilation
-  "exclude": [<%- exclude.map(glob => `"${glob}"`).join(", ") %>]
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

@@ -1,15 +1,6 @@
-const path = require("path");
-
 const validator = require("validator");
 
-const { filterList } = require("./filters");
-const {
-  validateEmail,
-  validateGlobs,
-  validateSemver,
-  validateURL,
-  validateFilePath,
-} = require("./validators");
+const { filters, validators, prompts } = require("@selinarnd/generator-utils");
 
 module.exports = {
   askForBasicProjectDetails,
@@ -20,84 +11,17 @@ module.exports = {
 
 function askForBasicProjectDetails() {
   return [
-    {
-      type: "input",
-      name: "name",
-      message: "Choose a name for your package",
-      default: path.basename(process.cwd()), // Name of project directory
-      validate: function(input) {
-        if (/^(@[a-z0-9]+\/)?[a-z0-9-]+$/g.test(input) === false) {
-          return "Package name must be a valid NPM package name";
-        }
-
-        return true;
-      },
-    },
-    {
-      type: "input",
-      name: "description",
-      message: "How you would describe your project in one sentence?",
-    },
-    {
-      type: "input",
-      name: "version",
-      message: "Choose a version number for your package",
-      default: "1.0.0",
-      validate: validateSemver,
-    },
-    {
-      type: "input",
-      name: "repository",
-      message: "URL of Git repository for this project",
-      validate: function(input) {
-        return validator.isEmpty(input) || validateURL(input);
-      },
-    },
-    {
-      type: "input",
-      name: "author.name",
-      message: "Author name",
-      validate: function(input) {
-        if (validator.isEmpty(input)) {
-          return "Please enter author name";
-        }
-
-        if (/[A-Z]([A-Za-z ]+)/g.test(input) === false) {
-          return "Author name must start with a capital letter and may only contain english letters and spaces";
-        }
-
-        return true;
-      },
-    },
-    {
-      type: "input",
-      name: "author.email",
-      message: "Author email",
-      validate: function(input) {
-        return validator.isEmpty(input) || validateEmail(input);
-      },
-    },
-    {
-      type: "input",
-      name: "author.url",
-      message: "Author website URL",
-      validate: function(input) {
-        return validator.isEmpty(input) || validateURL(input);
-      },
-    },
-    {
-      type: "input",
-      name: "license",
-      message: "Choose a license for your package(default to no license)",
-    },
-    {
-      type: "input",
-      name: "bugs",
-      message: "Where to submit bugs?(e.g., a Github issues page)",
-      validate: function(input) {
-        return validator.isEmail(input) || validateURL(input);
-      },
-    },
+    prompts.packageName,
+    prompts.projectDescription,
+    prompts.projectVersion,
+    prompts.githubUsername,
+    prompts.repositoryName,
+    prompts.repositoryURL,
+    prompts.authorName,
+    prompts.authorEmail,
+    prompts.authorURL,
+    prompts.projectLicense,
+    prompts.projectIssuesPage,
     {
       type: "input",
       name: "sourceDir",
@@ -111,8 +35,8 @@ function askForBasicProjectDetails() {
       default: function() {
         return "build";
       },
-      filter: filterList,
-      validate: validateGlobs,
+      filter: filters.filterList,
+      validate: validators.validateGlobs,
     },
   ];
 }
@@ -128,8 +52,8 @@ function askForBuildConfigurations() {
       default: function(answers) {
         return `${answers.sourceDir}/**/*`;
       },
-      filter: filterList,
-      validate: validateGlobs,
+      filter: filters.filterList,
+      validate: validators.validateGlobs,
     },
     {
       type: "input",
@@ -137,8 +61,8 @@ function askForBuildConfigurations() {
       message:
         "Files to be excluded from your project build(globs are allowed)",
       default: "node_modules,**/*.spec.ts",
-      filter: filterList,
-      validate: validateGlobs,
+      filter: filters.filterList,
+      validate: validators.validateGlobs,
     },
   ];
 }
@@ -167,7 +91,7 @@ function askForApplicationEntryFile() {
       when: function(answers) {
         return answers.hasEntryFile;
       },
-      validate: validateFilePath,
+      validate: validators.validateFilePath,
     },
     {
       type: "input",
@@ -179,15 +103,15 @@ function askForApplicationEntryFile() {
       when: function(answers) {
         return answers.hasEntryFile;
       },
-      validate: validateFilePath,
+      validate: validators.validateFilePath,
     },
     {
       type: "confirm",
       name: "hasCommand",
       message:
         "Would you like to expose the entryFile as a global command when this library is installed?",
-      default: function(answers) {
-        return answers.isRunnable;
+      default: function() {
+        return true;
       },
       when: function(answers) {
         return answers.isRunnable;

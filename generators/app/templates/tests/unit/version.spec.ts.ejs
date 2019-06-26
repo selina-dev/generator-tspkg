@@ -1,12 +1,12 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 import { getVersion } from "../../<%- sourceDir %>";
 
 test('"getVersion()" returns a version string equal to the value of "version" in "package.json"', () => {
   const pkgJson = readPkgJson();
   expect(getVersion()).toEqual(pkgJson.version);
-})
+});
 
 function readPkgJson() {
   const filePath = path.resolve(process.cwd(), "package.json");

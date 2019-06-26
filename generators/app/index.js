@@ -1,7 +1,6 @@
 const Generator = require("yeoman-generator");
 
-const asciiart = require("./asciiart");
-const { initializeGitRepository } = require("./utils/git");
+const { asciiArt, gitUtils } = require("@selinarnd/generator-utils");
 
 const {
   askForBasicProjectDetails,
@@ -14,7 +13,7 @@ module.exports = class extends Generator {
   get initializing() {
     return {
       printWelcomeMessage() {
-        this.log("\n" + asciiart.KITTY);
+        this.log("\n" + asciiArt.KITTY);
         this.log(
           "In just a few minutes from now you'll have a fully configured scaffold of a TypeScript package.",
         );
@@ -38,7 +37,7 @@ module.exports = class extends Generator {
           this.templatePath("package.json.ejs"),
           this.destinationPath("package.json"),
           {
-            name: this.answers.name,
+            package: this.answers.package,
             description: this.answers.description,
             version: this.answers.version,
             repository: this.answers.repository,
@@ -59,12 +58,22 @@ module.exports = class extends Generator {
 
       configureTypeScriptCompilation() {
         this.fs.copyTpl(
-          this.templatePath("tsconfig.json.ejs"),
-          this.destinationPath("tsconfig.json"),
+          this.templatePath("tsconfig.base.json.ejs"),
+          this.destinationPath("tsconfig.base.json"),
+        );
+
+        this.fs.copyTpl(
+          this.templatePath("tsconfig.build.json.ejs"),
+          this.destinationPath("tsconfig.build.json"),
           {
             include: this.answers.include,
             exclude: this.answers.exclude,
           },
+        );
+
+        this.fs.copyTpl(
+          this.templatePath("tsconfig.test.json.ejs"),
+          this.destinationPath("tsconfig.test.json"),
         );
       },
 
@@ -115,18 +124,12 @@ module.exports = class extends Generator {
           this.destinationPath("jest.config.js"),
           { sourceDir },
         );
-
-        this.fs.copyTpl(
-          this.templatePath("tsconfig.test.json.ejs"),
-          this.destinationPath("tsconfig.test.json"),
-        );
       },
 
       configureTestFrameworkSetup() {
         this.fs.copyTpl(
           this.templatePath("tests/setup.ts.ejs"),
           this.destinationPath("tests/setup.ts"),
-          { hasEnvFile: this.answers.hasEnvFile },
         );
       },
 
@@ -144,7 +147,7 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
           this.templatePath("README.md.ejs"),
           this.destinationPath("README.md"),
-          { name: this.answers.name },
+          { package: this.answers.package },
         );
       },
 
@@ -219,7 +222,7 @@ module.exports = class extends Generator {
       },
 
       createGitRepositoryForProject() {
-        return initializeGitRepository(process.cwd(), {
+        return gitUtils.initializeGitRepository(process.cwd(), {
           author: {
             name: this.user.git.name(),
             email: this.user.git.email(),

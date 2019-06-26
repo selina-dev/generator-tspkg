@@ -1,16 +1,4 @@
-<% if (hasEnvFile) { %>
-import * as dotenv from "dotenv";
-import * as path from "path";
-
-loadEnvironmentVariables();
-<% } %>
 setupMocks();
-
-<% if (hasEnvFile) { %>
-function loadEnvironmentVariables() {
-  dotenv.config({ path: path.resolve(__dirname, "..", "tests.env") });
-}
-<% } %>
 
 function setupMocks() {
   // Here you associate modules to their test doubles.

@@ -1,5 +1,5 @@
 {
-  "name": "<%- name %>",
+  "name": "<%- package.name %>",
   <% if (description) { %>
   "description": "<%- description %>",
   <% } %>
@@ -13,12 +13,10 @@
   },
   <%   } %>
   <% } %>
-  <% if (repository) { %>
   "repository": {
     "type": "git",
-    "url": "<%- repository %>"
+    "url": "<%- repository.url %>"
   },
-  <% } %>
   <% if (author) { %>
   "author": {
     <% if (author.name) { %>
@@ -50,7 +48,7 @@
   "files": ["<%- files[0] %>"],
   <% } %>
   "engines": {
-    "node": ">=10.15.1 <11"
+    "node": ">=10.15.3 <11"
   },
   "engineStrict": true,
   "config": {
@@ -59,20 +57,21 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
-    "build:typedoc": "typedoc --mode modules --tsconfig tsconfig.json --out ./typedoc/",
-    "format": "tslint -p tsconfig.json --fix --exclude \"node_modules/**\" \"**/*.ts\" && cross-env NODE_OPTIONS=\"--max_old_space_size=4096\" prettier --write \"**/*.{ts,js,json}\"",
-    "lint": "tslint -p tsconfig.json -c tslint.json --exclude \"node_modules/**\" \"**/*.ts\"",
+    "build:typedoc": "typedoc --mode modules --tsconfig tsconfig.build.json --out ./typedoc/",
+    "format": "tslint -p tsconfig.base.json --fix --exclude \"node_modules/**\" \"**/*.ts\" && cross-env NODE_OPTIONS=\"--max_old_space_size=4096\" prettier --write \"**/*.{ts,js,json}\"",
+    "lint": "tslint -p tsconfig.base.json -c tslint.json --exclude \"node_modules/**\" \"**/*.ts\"",
     "clean": "rimraf build coverage typedoc",
     <% if (isRunnable) { %>
     <%   if (hasEnvFile) { %>
-    "start": "ts-node --project tsconfig.json -r dotenv/config <%- entryFile %> dotenv_config_path=.env",
+    "start": "ts-node --project tsconfig.build.json -r dotenv/config <%- entryFile %> dotenv_config_path=.env",
     <%   } else { %>
-    "start": "ts-node --project tsconfig.json <%- entryFile %>",
+    "start": "ts-node --project tsconfig.build.json <%- entryFile %>",
     <%   } %>
     <% } %>
     "test": "jest",
     "test:watch": "yarn test --watch",
     "test:cov": "yarn test --coverage",
-    "test:debug": "node --inspect node_modules/jest/bin/jest.js --runInBand"
+    "test:debug": "node --inspect node_modules/jest/bin/jest.js --runInBand",
+    "prepublish": "yarn clean && yarn build"
   }
 }
