@@ -2,7 +2,7 @@ module.exports = {
   transform: {
     "^.+\\.ts$": "ts-jest",
   },
-  testRegex: "tests/.+\\.spec\\.ts$",
+  testRegex: "tests/.+\\.(e2e-)?spec\\.ts$",
   moduleDirectories: ["node_modules", "<%- sourceDir %>"],
   moduleFileExtensions: ["ts", "js", "json"],
   collectCoverageFrom: ["<%- sourceDir %>/**/*.ts"],
