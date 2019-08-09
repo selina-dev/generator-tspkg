@@ -47,7 +47,7 @@ function askForBuildConfigurations() {
       type: "input",
       name: "include",
       message:
-        "Files to be included in your project build(globs are allowed)." +
+        "Files to be included in your project build(globs are allowed). " +
         "Use commas to separate multiple globs.",
       default: function(answers) {
         return `${answers.sourceDir}/**/*`;

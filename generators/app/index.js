@@ -229,6 +229,10 @@ module.exports = class extends Generator {
           },
         });
       },
+
+      initializeGithooks() {
+        this.yarnInstall("husky");
+      },
     };
   }
 };
