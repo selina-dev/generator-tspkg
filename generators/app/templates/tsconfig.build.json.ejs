@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig.base",
   "include": [<%- include.map(glob => `"${glob}"`).join(", ") %>],
-  "exclude": [<%- exclude.map(glob => `"${glob}"`).join(", ") %>]  
+  "exclude": [<%- exclude.map(glob => `"${glob}"`).join(", ") %>]
 }

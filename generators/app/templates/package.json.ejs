@@ -58,7 +58,7 @@
     "build": "tsc --build tsconfig.build.json",
     "build:watch": "yarn build --watch",
     "build:typedoc": "typedoc --mode modules --tsconfig tsconfig.build.json --out ./typedoc/",
-    "format": "tslint -p tsconfig.base.json --fix --exclude \"node_modules/**\" \"**/*.ts\" && cross-env NODE_OPTIONS=\"--max_old_space_size=4096\" prettier --write \"**/*.{ts,js,json}\"",
+    "format": "tslint -p tsconfig.base.json --fix --exclude \"node_modules/**\" \"**/*.ts\" && cross-env NODE_OPTIONS=\"--max_old_space_size=4096\" prettier --write \"**/*.{ts,js,json,yml,yaml}\"",
     "lint": "tslint -p tsconfig.base.json -c tslint.json --exclude \"node_modules/**\" \"**/*.ts\"",
     "clean": "rimraf build coverage typedoc",
     <% if (isRunnable) { %>
