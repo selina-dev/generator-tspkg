@@ -60,7 +60,7 @@ function askForBuildConfigurations() {
       name: "exclude",
       message:
         "Files to be excluded from your project build(globs are allowed)",
-      default: "node_modules,**/*.spec.ts",
+      default: "node_modules,**/*.(e2e-)?spec.ts",
       filter: filters.filterList,
       validate: validators.validateGlobs,
     },

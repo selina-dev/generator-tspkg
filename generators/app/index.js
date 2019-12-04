@@ -96,12 +96,11 @@ module.exports = class extends Generator {
       },
 
       configureIndexTSFile() {
-        const { sourceDir, version } = this.answers;
+        const { sourceDir } = this.answers;
 
         this.fs.copyTpl(
           this.templatePath("lib/index.ts.ejs"),
           this.destinationPath(`${sourceDir}/index.ts`),
-          { version },
         );
       },
 
@@ -185,7 +184,7 @@ module.exports = class extends Generator {
   get install() {
     return {
       installProjectDependencies() {
-        const dependencies = ["reflect-metadata"];
+        const dependencies = ["reflect-metadata", "@selinarnd/node-utils"];
 
         const devDependencies = [
           "@types/jest",
@@ -209,8 +208,8 @@ module.exports = class extends Generator {
           devDependencies.push("dotenv", "@types/dotenv");
         }
 
-        this.yarnInstall(dependencies);
         this.yarnInstall(devDependencies, { dev: true });
+        this.yarnInstall(dependencies);
       },
     };
   }
@@ -230,7 +229,7 @@ module.exports = class extends Generator {
         });
       },
 
-      initializeGithooks() {
+      initializeGitHooks() {
         this.yarnInstall("husky");
       },
     };

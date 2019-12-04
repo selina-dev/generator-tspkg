@@ -1,8 +1,7 @@
 {
     "*.ts": [
-        "tslint -p tsconfig.base.json --fix",
+        "tslint -p tsconfig.base.json -c tslint.json --fix",
         "prettier --write",
-        "tslint -p tsconfig.base.json -c tslint.json",
         "git add"
     ],
     "*.{js,json,md,yml,yaml}": [
