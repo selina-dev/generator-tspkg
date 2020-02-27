@@ -71,8 +71,8 @@ module.exports = class extends Generator {
           },
         );
 
-        this.fs.copyTpl(
-          this.templatePath("tsconfig.test.json.ejs"),
+        this.fs.copy(
+          this.templatePath("tsconfig.test.json"),
           this.destinationPath("tsconfig.test.json"),
         );
       },

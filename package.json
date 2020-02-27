@@ -1,6 +1,6 @@
 {
   "name": "generator-tspkg",
-  "version": "1.2.7",
+  "version": "1.3.2",
   "description": "Yeoman generator for TypeScript packages",
   "files": [
     "generators",
@@ -15,7 +15,7 @@
   ],
   "main": "generators/app/index.js",
   "engines": {
-    "node": ">=10.15.3 <11"
+    "node": ">=12.16.0 <13"
   },
   "config": {
     "engine-strict": true
@@ -26,7 +26,7 @@
     "format": "prettier --write \"**/*.{js,json}\""
   },
   "dependencies": {
-    "@selinarnd/generator-utils": "^1.2.1",
+    "@selinarnd/generator-utils": "^1.3.0",
     "validator": "^10.11.0",
     "yeoman-generator": "^3.2.0"
   },
