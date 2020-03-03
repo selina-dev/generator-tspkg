@@ -1,52 +1,52 @@
 {
   "name": "<%- package.name %>",
-  <% if (description) { %>
+  <%_ if (description) { _%>
   "description": "<%- description %>",
-  <% } %>
+  <%_ } _%>
   "version": "<%- version %>",
-  <% if (hasEntryFile) { %>
+  <%_ if (hasEntryFile) { _%>
   "main": "<%- entryFile %>",
   "types": "<%- typeDefinitions %>",
-  <%   if (isRunnable && hasCommand) { %>
+  <%_   if (isRunnable && hasCommand) { _%>
   "bin": {
     "<%- command %>": "<%- entryFile %>"
   },
-  <%   } %>
-  <% } %>
+  <%_   } _%>
+  <%_ } _%>
   "repository": {
     "type": "git",
     "url": "<%- repository.url %>"
   },
-  <% if (author) { %>
+  <%_ if (author) { _%>
   "author": {
-    <% if (author.name) { %>
+    <%_ if (author.name) { _%>
     "name": "<%- author.name %>"<% if (author.email || author.url) {%>,<% } %>
-    <% } %>
-    <% if (author.email) { %>
+    <%_ } _%>
+    <%_ if (author.email) { _%>
     "email": "<%- author.email %>"<% if (author.url) {%>,<% } %>
-    <% } %>
-    <% if (author.url) { %>
+    <%_ } _%>
+    <%_ if (author.url) { _%>
     "url": "<%- author.url %>"
-    <% } %>
+    <%_ } _%>
   },
-  <% } %>
-  <% if (license) { %>
+  <%_ } _%>
+  <%_ if (license) { _%>
   "license": "<%- license %>",
-  <% } %>
-  <% if (bugs) { %>
+  <%_ } _%>
+  <%_ if (bugs) { _%>
   "bugs": {
     "url": "<%- bugs %>"
   },
-  <% } %>
-  <% if (files.length > 1) { %>
+  <%_ } _%>
+  <%_ if (files.length > 1) { _%>
   "files": [
     <% files.forEach((file, index) => { %>
       "<%- file %>"<% if (index !== files.length - 1) { %>,<% } %>
     <% }) %>
   ],
-  <% } else { %>
+  <%_ } else { _%>
   "files": ["<%- files[0] %>"],
-  <% } %>
+  <%_ } _%>
   "engines": {
     "node": ">=12.16.0 <13"
   },
@@ -61,13 +61,13 @@
     "format": "tslint -p tsconfig.base.json --fix --exclude \"node_modules/**\" \"**/*.ts\" && cross-env NODE_OPTIONS=\"--max_old_space_size=4096\" prettier --write \"**/*.{ts,js,json,yml,yaml}\"",
     "lint": "tslint -p tsconfig.base.json -c tslint.json --exclude \"node_modules/**\" \"**/*.ts\"",
     "clean": "rimraf build coverage typedoc",
-    <% if (isRunnable) { %>
-    <%   if (hasEnvFile) { %>
+    <%_ if (isRunnable) { _%>
+    <%_   if (hasEnvFile) { _%>
     "start": "ts-node --project tsconfig.build.json -r dotenv/config <%- entryFile %> dotenv_config_path=.env",
-    <%   } else { %>
+    <%_   } else { _%>
     "start": "ts-node --project tsconfig.build.json <%- entryFile %>",
-    <%   } %>
-    <% } %>
+    <%_   } _%>
+    <%_ } _%>
     "test": "jest",
     "test:watch": "yarn test --watch",
     "test:cov": "yarn test --coverage",

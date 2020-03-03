@@ -98,8 +98,8 @@ module.exports = class extends Generator {
       configureIndexTSFile() {
         const { sourceDir } = this.answers;
 
-        this.fs.copyTpl(
-          this.templatePath("lib/index.ts.ejs"),
+        this.fs.copy(
+          this.templatePath("lib/index.ts"),
           this.destinationPath(`${sourceDir}/index.ts`),
         );
       },
@@ -129,16 +129,6 @@ module.exports = class extends Generator {
         this.fs.copyTpl(
           this.templatePath("tests/setup.ts.ejs"),
           this.destinationPath("tests/setup.ts"),
-        );
-      },
-
-      configureSampleTest() {
-        const { sourceDir } = this.answers;
-
-        this.fs.copyTpl(
-          this.templatePath("tests/unit/version.spec.ts.ejs"),
-          this.destinationPath("tests/unit/version.spec.ts"),
-          { sourceDir },
         );
       },
 
@@ -184,7 +174,7 @@ module.exports = class extends Generator {
   get install() {
     return {
       installProjectDependencies() {
-        const dependencies = ["reflect-metadata", "@selinarnd/node-utils"];
+        const dependencies = ["reflect-metadata"];
 
         const devDependencies = [
           "@types/jest",
