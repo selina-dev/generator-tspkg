@@ -174,8 +174,6 @@ module.exports = class extends Generator {
   get install() {
     return {
       installProjectDependencies() {
-        const dependencies = ["reflect-metadata"];
-
         const devDependencies = [
           "@types/jest",
           "@types/node",
@@ -199,7 +197,6 @@ module.exports = class extends Generator {
         }
 
         this.yarnInstall(devDependencies, { dev: true });
-        this.yarnInstall(dependencies);
       },
     };
   }
