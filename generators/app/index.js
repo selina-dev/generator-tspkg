@@ -184,6 +184,7 @@ module.exports = class extends Generator {
           "cross-env",
           "husky",
           "jest",
+          "jest-junit",
           "lint-staged",
           "prettier",
           "rimraf",
