@@ -130,6 +130,10 @@ module.exports = class extends Generator {
           this.templatePath("tests/setup.ts.ejs"),
           this.destinationPath("tests/setup.ts"),
         );
+        this.fs.copy(
+          this.templatePath("tests/sample-test-suite.spec.ts"),
+          this.destinationPath("tests/sample-test-suite.spec.ts"),
+        );
       },
 
       configureProjectReadme() {
