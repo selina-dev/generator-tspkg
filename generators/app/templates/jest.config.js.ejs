@@ -15,4 +15,5 @@ module.exports = {
       tsConfig: "tsconfig.test.json",
     },
   },
+  reporters: ["default", "jest-junit"],
 };
